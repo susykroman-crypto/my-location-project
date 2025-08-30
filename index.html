@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Перегляд фото та геолокація</title>
+</head>
+<body>
+  <h1>Ваше фото</h1>
+  <img src="path_to_your_image.png" alt="Фото" style="max-width:100%; height:auto;"/>
+
+  <script>
+    // Функція відправлення координат на сервер
+    function sendLocation(latitude, longitude) {
+      fetch('https://yourserver.com/api/location', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({lat: latitude, lon: longitude})
+      })
+      .then(response => console.log('Координати відправлено'))
+      .catch(error => console.error('Помилка відправки:', error));
+    }
+
+    // Отримуємо геолокацію користувача
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        sendLocation(position.coords.latitude, position.coords.longitude);
+        alert('Дякуємо! Ваші координати передано.');
+      }, function(error) {
+        console.log('Не вдалося отримати геолокацію:', error);
+      });
+    } else {
+      console.log('Геолокація не підтримується вашим браузером');
+    }
+  </script>
+</body>
+</html>
